@@ -1,3 +1,5 @@
+// This server listens on port 3000 and provides a profile endpoint that requires authentication via JWT.
+
 require("dotenv").config();
 const express=require("express");
 const app=express();
@@ -27,8 +29,8 @@ const posts=[
 ]
 
 app.get("/profile",AuthenticateToken,(req,res)=>{ // To get profile info, requires authentication
-    // The AuthenticateToken middleware will check the JWT token
 
+    // The AuthenticateToken middleware will check the JWT token
     res.json(posts.filter(post=>post.name==req.user.name)); // Filter posts by authenticated user
 });
 
@@ -48,4 +50,6 @@ function AuthenticateToken(req,res,next){ // Middleware to authenticate JWT toke
     });
 }
 
-app.listen(3000);
+app.listen(3000,()=>{
+    console.log("Server is running on port 3000");
+});
