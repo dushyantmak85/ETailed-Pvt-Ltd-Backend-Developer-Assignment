@@ -4,28 +4,31 @@ require("dotenv").config();
 const express=require("express");
 const app=express();
 const bcrypt = require('bcrypt');
+
+const User = require("./models/User");
 const mongoose = require('mongoose');
+mongoose.connect("mongodb://127.0.0.1:27017/RegisterDatabase");
 
 const jwt=require("jsonwebtoken");
 app.use(express.json());
 
-mongoose.connect("mongodb://127.0.0.1:27017/RegisterDatabase");
-
-const UserSchema=new mongoose.Schema({
-  email:String,
-  password:String, 
-  name:String
-});
-
-const User = mongoose.model("User", UserSchema);
-
-//User login route handler
-app.post("/login",(req,res)=>{
+//User login handler
+app.post("/login",async (req,res)=>{
     // Authenticate user
-    const username= req.body.username;
-    const user = { name: username };
-    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-    res.json({ accessToken:accessToken }); // Sending the JWT token back to the client
+    const { email, password } = req.body;
+  
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).send("User not found.");
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).send("Invalid credentials.");
+
+    //  Creating JWT with real ID
+    const payload = { id: user._id, name: user.name };
+    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+
+    res.json({ accessToken:accessToken }); // Sending the access token back to the client
+  
 })
 
 //Register a new user

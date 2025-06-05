@@ -10,24 +10,24 @@ app.use(express.json());
 
 mongoose.connect("mongodb://127.0.0.1:27017/myDatabase");
 
-const UserSchema=new mongoose.Schema({
-  email:String,
-  password:String, 
-  name:String
+const PreferenceSchema = new mongoose.Schema({ // Schema for user preferences
+  userId: String,         // Link to the user
+  theme: String,
+  layout: String,
 });
-const User=new mongoose.model("User",UserSchema);
+const Preference = new mongoose.model("Preference", PreferenceSchema);
 
 
-app.get("/profile",AuthenticateToken,(req,res)=>{ // To get profile info, requires authentication
 
-    // The AuthenticateToken middleware will check the JWT token
+app.get("/profile",AuthenticateToken,(req,res)=>{ // Endpoint to get user profile
+    
     res.json(posts.filter(post=>post.name==req.user.name)); // Filter posts by authenticated user
+
 });
 
 
 function AuthenticateToken(req,res,next){ // Middleware to authenticate JWT token
 
-    // Check for the token in the Authorization header
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     
@@ -39,6 +39,43 @@ function AuthenticateToken(req,res,next){ // Middleware to authenticate JWT toke
         next();
     });
 }
+
+ // Endpoint to save user preferences
+
+app.post("/api/preferences", AuthenticateToken, async (req, res) => {
+  const { theme, layout } = req.body;
+  const userId = req.user.id;
+
+  let preference = await Preference.findOne({ userId });
+  if (preference) 
+    {
+    preference.theme = theme;
+    preference.layout = layout;
+    } 
+  else 
+    {
+      preference = new Preference({ userId, theme, layout });
+    }
+
+    await preference.save();
+    res.send("Preferences saved.");
+
+});
+
+// Endpoint to get user preferences
+
+app.get("/api/preferences", AuthenticateToken, async (req, res) => {
+  const userId = req.user.id;
+
+  const preference = await Preference.findOne({ userId });
+  if (!preference) {
+    return res.status(404).send("No preferences found.");
+  }
+
+  res.json(preference);
+
+  
+});
 
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
