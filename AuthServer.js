@@ -5,7 +5,7 @@ const express=require("express");
 const app=express();
 const bcrypt = require('bcrypt');
 
-const User = require("./models/User");
+const User = require("./models/UserModel");
 const mongoose = require('mongoose');
 mongoose.connect("mongodb://127.0.0.1:27017/RegisterDatabase");
 

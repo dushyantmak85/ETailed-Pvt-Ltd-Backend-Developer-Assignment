@@ -4,25 +4,21 @@ require("dotenv").config();
 const express=require("express");
 const app=express();
 const mongoose = require('mongoose');
+const User= require("./models/UserModel"); // Importing User model
+const Preference = require("./models/PreferencesModel"); // Importing the Preferences model
 
 const jwt=require("jsonwebtoken");
 app.use(express.json());
 
-mongoose.connect("mongodb://127.0.0.1:27017/myDatabase");
-
-const PreferenceSchema = new mongoose.Schema({ // Schema for user preferences
-  userId: String,         // Link to the user
-  theme: String,
-  layout: String,
-});
-const Preference = new mongoose.model("Preference", PreferenceSchema);
+mongoose.connect("mongodb://127.0.0.1:27017/RegisterDatabase");
 
 
 
-app.get("/profile",AuthenticateToken,(req,res)=>{ // Endpoint to get user profile
-    
-    res.json(posts.filter(post=>post.name==req.user.name)); // Filter posts by authenticated user
-
+// Protected route to get user profile
+app.get("/profile",AuthenticateToken,async (req,res)=>{          
+    const user = await User.findById(req.user.id); // Find user by ID from the JWT token
+    if (!user) return res.status(404).send("User not found");
+    res.json(user);
 });
 
 
@@ -42,7 +38,7 @@ function AuthenticateToken(req,res,next){ // Middleware to authenticate JWT toke
 
  // Endpoint to save user preferences
 
-app.post("/api/preferences", AuthenticateToken, async (req, res) => {
+app.post("/preferences", AuthenticateToken, async (req, res) => {
   const { theme, layout } = req.body;
   const userId = req.user.id;
 
@@ -64,7 +60,7 @@ app.post("/api/preferences", AuthenticateToken, async (req, res) => {
 
 // Endpoint to get user preferences
 
-app.get("/api/preferences", AuthenticateToken, async (req, res) => {
+app.get("/preferences", AuthenticateToken, async (req, res) => {
   const userId = req.user.id;
 
   const preference = await Preference.findOne({ userId });
