@@ -17,16 +17,6 @@ const UserSchema=new mongoose.Schema({
 });
 const User=new mongoose.model("User",UserSchema);
 
-const posts=[
-    {
-        "name":"dushyant",
-        "postnumber":1
-    },
-    {
-        "name":"karni",
-        "postnumber":2
-    }
-]
 
 app.get("/profile",AuthenticateToken,(req,res)=>{ // To get profile info, requires authentication
 

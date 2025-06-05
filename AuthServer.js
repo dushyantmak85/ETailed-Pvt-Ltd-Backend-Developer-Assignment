@@ -3,12 +3,13 @@
 require("dotenv").config();
 const express=require("express");
 const app=express();
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
 const jwt=require("jsonwebtoken");
 app.use(express.json());
 
-mongoose.connect("mongodb://127.0.0.1:27017/myDatabase");
+mongoose.connect("mongodb://127.0.0.1:27017/RegisterDatabase");
 
 const UserSchema=new mongoose.Schema({
   email:String,
@@ -30,7 +31,6 @@ app.post("/login",(req,res)=>{
 //Register a new user
 app.post("/register", async (req, res) => {
   const { email, password, name } = req.body;
-
   try {
     const hashedPassword = await bcrypt.hash(password, 10);// Hashing the password before saving using bcrypt
     const newUser = new User({ email, password: hashedPassword, name });
