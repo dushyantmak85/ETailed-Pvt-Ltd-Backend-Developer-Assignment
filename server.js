@@ -1,4 +1,4 @@
-// This server listens on port 3000 and provides a profile endpoint that requires authentication via JWT.
+// This server listens on port 3000 and provides a profile endpoint and preferences endpoint that requires authentication via JWT.
 
 require("dotenv").config();
 const express=require("express");
@@ -9,6 +9,10 @@ const Preference = require("./models/PreferencesModel"); // Importing the Prefer
 
 const jwt=require("jsonwebtoken");
 app.use(express.json());
+
+// Importing routes
+const dashboardRoutes = require('./routes/dashboard-summary');
+const profileRoutes = require('./routes/profile');
 
 mongoose.connect("mongodb://127.0.0.1:27017/RegisterDatabase");
 
@@ -67,11 +71,13 @@ app.get("/preferences", AuthenticateToken, async (req, res) => {
   if (!preference) {
     return res.status(404).send("No preferences found.");
   }
-
-  res.json(preference);
-
-  
+  res.json(preference);  
 });
+
+
+// Using  routes
+app.use('/api', dashboardRoutes);
+app.use('/api', profileRoutes);
 
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
