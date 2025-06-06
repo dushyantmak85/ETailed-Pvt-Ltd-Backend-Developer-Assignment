@@ -1,4 +1,7 @@
-// This server listens on port 3000 and provides a profile endpoint and preferences endpoint that requires authentication via JWT.
+// This server listens on port 3000.
+// To make request first start the server using `node server.js` and then you can use tools like Postman or curl to test the endpoints.
+// Make sure to have MongoDB running and the database `RegisterDatabase` created.
+// http://localhost:3000 is the base URL to make requests.
 
 require("dotenv").config();
 const express=require("express");
@@ -7,14 +10,22 @@ const mongoose = require('mongoose');
 const User= require("./models/UserModel"); // Importing User model
 const AuthenticateToken = require("./middleware/AuthenticateToken");
 
-app.use(express.json());
-
-// Importing dashboard and profile routes
+// Importing routes
 const dashboardRoutes = require('./routes/dashboard-summary');
 const profileRoutes = require('./routes/Updateprofile');
+const loginRoutes = require('./routes/login');
+const preferenceRoutes = require('./routes/preferences');
+const registerRoutes = require('./routes/register');
 
 mongoose.connect("mongodb://127.0.0.1:27017/RegisterDatabase");
+app.use(express.json());
 
+
+// User registration handler
+app.use('/register', registerRoutes);
+
+// User login handler
+app.use('/login', loginRoutes);
 
 
 // Protected route to get user profile
@@ -24,23 +35,14 @@ app.get("/profile",AuthenticateToken,async (req,res)=>{
     res.json(user);
 });
 
-// Importing and handling preferences route
-const preferenceRoutes = require('./routes/preferences');
-app.use('/preferences', preferenceRoutes);
+//  Handling preferences route
+app.use('/preferences', preferenceRoutes); 
 
-// User login handler
-const loginRoutes = require('./routes/login');
-app.use('/login', loginRoutes);
-
-// User registration handler
-const registerRoutes = require('./routes/register');
-app.use('/register', registerRoutes);
-
- 
-
-// Using  routes
+// Handling dashboard-summary  route
 app.use('/dashboard-summary', dashboardRoutes);
-app.use('/profile', profileRoutes); // Update email or name
+
+// Handling profile update route
+app.use('/profile', profileRoutes); 
 
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
