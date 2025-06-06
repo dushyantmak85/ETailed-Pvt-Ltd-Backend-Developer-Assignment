@@ -1,7 +1,9 @@
-// This server listens on port 3000.
-// To make request first start the server using `node server.js` and then you can use tools like Postman or curl to test the endpoints.
-// Make sure to have MongoDB running and the database `RegisterDatabase` created.
-// http://localhost:3000 is the base URL to make requests.
+/* 
+ 1. This server listens on port 3000.
+ 2. To make request first start the server using `node server.js` and then you can use tools like Postman or RapidAPI Client to test the endpoints.
+ 3. Make sure to have MongoDB running and the database `RegisterDatabase` created.
+ 4. http://localhost:3000 is the base URL to make requests.
+  */
 
 require("dotenv").config();
 const express=require("express");
