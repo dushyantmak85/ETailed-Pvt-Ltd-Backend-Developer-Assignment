@@ -1,9 +1,9 @@
 /* 
  1. This server listens on port 3000.
- 2. To make request first start the server using `node server.js` and then you can use tools like Postman or RapidAPI Client to test the endpoints.
+ 2. To make requests, first start the server using `npm start` and then you can use tools like Postman or RapidAPI Client to test the endpoints.
  3. Make sure to have MongoDB running and the database `RegisterDatabase` created.
  4. http://localhost:3000 is the base URL to make requests.
-  */
+*/
 
 require("dotenv").config();
 const express=require("express");
@@ -14,7 +14,7 @@ const AuthenticateToken = require("./middleware/AuthenticateToken");
 
 // Importing routes
 const dashboardRoutes = require('./routes/dashboard-summary');
-const profileRoutes = require('./routes/Updateprofile');
+const Updateprofile = require('./routes/Updateprofile');
 const loginRoutes = require('./routes/login');
 const preferenceRoutes = require('./routes/preferences');
 const registerRoutes = require('./routes/register');
@@ -44,7 +44,7 @@ app.use('/preferences', preferenceRoutes);
 app.use('/dashboard-summary', dashboardRoutes);
 
 // Handling profile update route
-app.use('/profile', profileRoutes); 
+app.use('/profile', Updateprofile); 
 
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
