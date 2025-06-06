@@ -10,9 +10,13 @@ const User = require("../models/UserModel");
 router.post("/", async (req, res) => {
   const { email, password, name } = req.body;
 
+  if(!email || !password || !name) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
   // Validating email
   const emailRegex = /\S+@\S+\.\S+/;
-  if (!email || !emailRegex.test(email)) {
+  if (!emailRegex.test(email)) {
     return res.status(400).json({ message: "Invalid email format." });
   }
   

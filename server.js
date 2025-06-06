@@ -46,6 +46,6 @@ app.use('/dashboard-summary', dashboardRoutes);
 // Handling profile update route
 app.use('/profile', Updateprofile); 
 
-app.listen(3000,()=>{
+app.listen(process.env.Port,()=>{
     console.log("Server is running on port 3000");
 });
