@@ -9,6 +9,13 @@ const User = require("../models/UserModel");
 //Register a new user
 router.post("/", async (req, res) => {
   const { email, password, name } = req.body;
+
+  // Validating email
+  const emailRegex = /\S+@\S+\.\S+/;
+  if (!email || !emailRegex.test(email)) {
+    return res.status(400).json({ message: "Invalid email format." });
+  }
+  
   try {
     const hashedPassword = await bcrypt.hash(password, 10);// Hashing the password before saving using bcrypt
     const newUser = new User({ email, password: hashedPassword, name });

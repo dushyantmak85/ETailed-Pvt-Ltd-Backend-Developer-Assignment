@@ -12,6 +12,12 @@ const router = express.Router();
 router.post("/",async (req,res)=>{
     // Authenticate user
     const { email, password } = req.body;
+
+    // Validating email
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!email || !emailRegex.test(email)) {
+        return res.status(400).json({ message: "Invalid email format." });
+    }
   
     const user = await User.findOne({ email });
     if (!user) return res.status(400).send("User not found.");

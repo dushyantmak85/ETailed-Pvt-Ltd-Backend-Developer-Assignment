@@ -12,8 +12,8 @@ router.get('/', (req, res) => {
       { id: 102, title: "Ocean Explorer", status: "Completed" },
     ],
     notifications: [
-      { id: 1, message: "New user joined", timestamp: "2025-06-06T10:00:00Z" },
-      { id: 2, message: "Project deadline approaching", timestamp: "2025-06-07T12:00:00Z" },
+      { id: 1, message: "New user joined"},
+      { id: 2, message: "Project deadline approaching"},
     ]
   };
 
