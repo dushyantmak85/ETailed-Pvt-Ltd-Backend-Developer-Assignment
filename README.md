@@ -151,7 +151,6 @@ Use this token in Authorization header as:
 ```
 Authorization: Bearer your.jwt.token
 ```
-Great! Here's how you can structure your `README.md` to include **multiple screenshots with captions** showing different parts of your app:
 
 ---
 
@@ -229,7 +228,7 @@ Shows the `/dashboard-summary` endpoint returning dummy team/project/notificatio
 
 Feel free to connect with me if you have any questions!
 
-**Dushyant Makwana**
+**Dushyant Makwana** (9549981416)
 
 ---
 
