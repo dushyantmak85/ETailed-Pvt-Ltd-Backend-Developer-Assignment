@@ -38,7 +38,7 @@ npm install
 
 ```env
 PORT=3000
-JWT_SECRET=609603d89a76c2cabe7881fa73aa0dc187d2e2971e73900a040503fcbf85378d3944fd0780cc9a8aed28344b5561ea45740722df6359ac66d4ff571058fe81ec
+ACCESS_TOKEN_SECRET=mysecret123
 ```
 
 ### 4. Start the server
@@ -151,6 +151,77 @@ Use this token in Authorization header as:
 ```
 Authorization: Bearer your.jwt.token
 ```
+Great! Here's how you can structure your `README.md` to include **multiple screenshots with captions** showing different parts of your app:
+
+---
+
+## 📸 Screenshots
+
+### ✅ 1. Registering a New User
+
+Shows the `/register` endpoint in RapidAPI CLient with a success response.
+
+![Register Endpoint](./assets/register.png)
+
+---
+
+
+### 🔐 2. Logging In a User
+
+Shows the `/login` endpoint returning a JWT token.
+
+![Login Endpoint](./assets/login.png)
+
+---
+
+### 👤 3. Accessing a Protected Profile
+
+Shows `/profile` being accessed with the JWT token in the Authorization header.
+
+![Profile Endpoint](./assets/getProfile.png)
+
+---
+
+### 👤 3. Updating Profile Info
+
+Shows `/profile` being updated with the JWT token in the Authorization header.
+
+![Profile Endpoint](./assets/updateProfile.png)
+
+---
+
+
+### 🎨 4. Saving User Preferences
+
+Shows the `/preferences` POST request saving theme and layout.
+
+![Preferences Save](./assets/setPreferences.png)
+
+---
+
+### 🎨 4. Accessing User Preferences
+
+Shows the `/preferences` GET request to access saved theme and layout with jwt token.
+
+![Preferences Save](./assets/getPreferences.png)
+
+---
+
+### 📊 5. Fetching Dashboard Summary
+
+Shows the `/dashboard-summary` endpoint returning dummy team/project/notification data.
+
+![Dashboard Summary](./assets/dashboard-summary.png)
+
+---
+
+## 📝 MongoDB Database
+
+![Database](./assets/database.png)
+
+---
+
+
 
 ---
 
